@@ -1,17 +1,19 @@
 
 import json
 import random
-import config 
-import logging 
-from aiogram import Bot, Dispatcher , executor , types 
+import config
+import logging
+from aiogram import Bot, Dispatcher , executor , types
 import asyncio
-logging.basicConfig(level=logging.INFO)
-PROXY_URL = "http://proxy.server:3128"
+#logging.basicConfig(level=logging.INFO)
+#PROXY_URL = "http://proxy.server:3128"
 
-bot = Bot(token=config.token,proxy=PROXY_URL)
+bot = Bot(token=config.token)#proxy=PROXY_URL)
 dp = Dispatcher(bot)
+haunted_list = []
+response = '123'
+haunted_users = {}
 
-    
 @dp.message_handler()
 async def echo(message:types.Message):
     if message.from_user.id == 490557903:#zyzel
@@ -24,19 +26,38 @@ async def echo(message:types.Message):
             temp = message.text.split()
             for i in range(10):
                 await asyncio.sleep(0.1)
-                await message.answer(temp[1])           
+                await message.answer(temp[1])
         if "!pin" in message.text.lower():
-            await bot.pin_chat_message(chat_id=message.chat.id, message_id=message.reply_to_message.message_id) 
+            await bot.pin_chat_message(chat_id=message.chat.id, message_id=message.reply_to_message.message_id)
         if "!unpin"  in message.text.lower():
             await bot.unpin_chat_message(chat_id=message.chat.id, message_id=message.reply_to_message.message_id)
         if "иди нахуй" in message.text.lower():
             await bot.send_document(message.chat.id,'CgACAgIAAx0CZcXuUgACAzdiomH4Q2YIpJtimzGnVDvFMK9PowACRhAAAnxZeUp5RLAY5TaYgyQE')
-
         if "стфу" in message.text.lower().split():
             await bot.send_document(message.chat.id,'BAACAgIAAxkBAAIGaGMIzqiu10nfXN7BxZ546BllVdfuAALsHgACY_FJSIY7W5TNTMrhKQQ')
-
         if "завали ебало" in message.text.lower():
             await bot.send_document(message.chat.id,'BAACAgIAAxkBAAIGaGMIzqiu10nfXN7BxZ546BllVdfuAALsHgACY_FJSIY7W5TNTMrhKQQ')
+        if "!хаунт" in message.text.lower():
+            temp = message.text.split()
+            if len(temp) > 1:
+                haunt_text = ' '.join(temp[1:])
+                if message.reply_to_message:
+                    user_id = message.reply_to_message.from_user.id
+                    haunted_users[user_id] = haunt_text
+                    await message.answer("пизда тебе ))))0")
+                else:
+                    await message.answer("реплайни челика зизь")
+        if "!схаунт" in message.text.lower() and message.reply_to_message:
+            user_id_to_remove = message.reply_to_message.from_user.id
+            if user_id_to_remove in haunted_users:
+                del haunted_users[user_id_to_remove]
+                await message.answer(f"живи браток)")
+            else:
+                await message.answer(f"нема такого")
+
+    if message.from_user.id in haunted_users:
+        haunt_text = haunted_users[message.from_user.id]
+        await message.reply(haunt_text)
     if "артур" in message.text.lower():
         await message.answer('гей.')
     if "зуз" in message.text.lower():
@@ -58,31 +79,53 @@ async def echo(message:types.Message):
     if "зизел" in message.text.lower().split():
         await message.answer('wassup on zyzel nu i hule')
     if "зизель" in message.text.lower().split():
-        await message.answer('вассап он зизель ну и хуле')        
+        await message.answer('вассап он зизель ну и хуле')
     if "нёрд" in message.text.lower():
+        await message.answer('🤓')
+    if "ньорд" in message.text.lower():
+        await message.answer('🤓')
+    if "нерд" in message.text.lower():
         await message.answer('🤓')
     if "влад рябко" in message.text.lower():
         await bot.send_document(message.chat.id, "CgACAgIAAx0CZcXuUgADq2KZGwABMKI2nRERkEloh6R_5w9L4QAC4hgAAj6t6Uh-U02HP1uiqyQE")
-    if "@yukateki" in message.text.lower():
+    if "@ultrawtrs" in message.text.lower():
         await bot.send_document(message.chat.id,'CgACAgIAAxkBAAIGa2MI0NghvPHfYYSJg_Im7T8mbOLpAAJUHwACrBhJSMfgkRLPRBC-KQQ')
+    if "@caramel_pie" in message.text.lower():
+        await bot.send_document(message.chat.id,'CgACAgQAAxkBAAIKs2TT5WUgaPdkr7kHNsL6etW-lwABMwACfwgAApnEIFDe7Unb49LOjTAE')
     if "@icezyzel" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgQAAx0CZcXuUgAD3mKZHb55fnY5wvRraUV4xPzuZuQaAAKsAgACZ5zNUHr1a9RDJChCJAQ")
     if "@nicourrrn" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgQAAx0CZcXuUgAD42KZHoMPHRumhWL1yJhXGrgGbEBaAAJnAwACPpgFU0nv6hWBbKB7JAQ")
-    if "@el_pokora" in message.text.lower():
+    if "@porki_privat" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgIAAx0CZcXuUgAD82KZH6NeJhTq8fI8GOu_umG6CNGJAAKYGAACZP6wSFN7dCjBJ6lAJAQ")
     if "@littlegiant_10" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgIAAx0CZcXuUgAD_GKZIHI-D6XZFtpS5cmn_TyQgdUAAwwZAAIzEkhJmOC_UXCST14kBA")
+    if "@aez4kmi_h3soy4m" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgIAAxkBAAIJY2TRRc9q864mmt2f4laiRBGljZI1AALCMAACy7thSylxDNM_B6w_MAQ")
+    if "@baseowner" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgQAAxkBAAIJcGTRRvJzAAGcaiVaSLpZTT5L-aadMgACLgMAAqBgBVOXjs1v4XOKDzAE")
+    if "@kolyasik_o" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgQAAxkBAAIJbWTRRorHqhDYXpRQ8V7XTMNUhiMFAAL1AgACTh4sU3c2ZNBhQfKgMAQ")
+    if "@a626hd" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgIAAxkBAAIJeWTRSFHsYHgAAVeLCSsCD7wFMNEPtAACESYAAqgFyUmADRnLEMI4KzAE")
+    if "@vindyt" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgIAAxkBAAIJg2TRTS1IiysikPA8HZTI0OuOTFRfAAJjIAACF7_RSCrzIBnlOeuHMAQ")
+    if "@d_borisovna" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgQAAxkBAAIJf2TRSxlEO-LmkV3gme4IFIY98WLiAAJ0AwACu3kcUoIsuaLHusqFMAQ")  
+    if "@rezzny4" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgIAAxkBAAIJgGTRTFSoJRboe6XoQ93zFoiU-qxdAAJCMQACEmTwSDu26X4pdMEeMAQ")   
     if "@sintipae" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgIAAx0CZcXuUgACAQximSFWT513RHDqfqyJKKxstXX8RAACfw8AArds0EqjFxb-9jvKCiQE")
     if "@chernyy_banan" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgIAAx0CZcXuUgACASBimSHvvgABKwpdrDtoxzAmdMiMwigAArMLAAJzqflI5wYzXsnGC0skBA")
-    if "@fuerzzzaa" in message.text.lower():
+    if "@cold_semen" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgQAAx0CZcXuUgACATBimSNFe39NSsj-XRcV65tRKBk-2QACBwMAAiBovFLWX2-JsvDDnCQE")
     if "@pustostas" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgQAAxkBAAII4mOi3TNfpP-qWeeGHukIS_p_9gFEAAKdAwACo-FtUG2NMLEZyJYsLAQ")
     if "@michaeloffcherengo" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgIAAx0CZcXuUgACAVhimaqqzW1XcrVPFves25PkMxvzzAACdg0AAnmN2UqOvHiSpMGIciQE")
+    if "@BaseOwner" in message.text.lower():
+        await bot.send_document(message.chat.id,"CgACAgQAAxkBAAIJRWTRQFkUKh8rLeguKAyiBZ8fUlF8AAIuAwACoGAFU5eOzW_hc4oPMAQ")
     if "я стал сильнее" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgIAAx0CZcXuUgACAZ9im6imXIEHcBEC7sGmKMaqj-a0zwACQxwAAotY2EgW-___vFbCRCQE")
     if "вахуи" in message.text.lower():
@@ -107,6 +150,10 @@ async def echo(message:types.Message):
         test_list = ["CgACAgIAAx0CZcXuUgACATlimSXwuoscWUkQltdmo0Tk6aGbzgACmxcAAu42YUtuO4SZI7w50iQE", "CgACAgIAAx0CZcXuUgACATpimSZSMZ2M8DFiT4UON7Qkmbbg5gACjxsAAiA3IEidnGeSKrmmTCQE", "CgACAgIAAx0CZcXuUgACATtimSdfkNDdoLfcTu040ELgrTNskgACRhUAAmsMeEtxNWPqeg7RQSQE",'CgACAgIAAx0CZcXuUgACATximSgPz29lkHaihwfnsZY1SEyL2AACKBoAAkyc6EoAAfyJFjgwAAHGJAQ','CgACAgQAAx0CZcXuUgACAUtimSkHuktKILXdj82NE5bJmFSMDAACGgMAAklQBVP0ZLyfgsgkOCQE','CgACAgIAAx0CZcXuUgACAzRiomEYobbK_u6H5EEAAbf7LjUQEpIAAh0YAAJZJllL9JdwsC7ZP2AkBA', 'CgACAgIAAx0CZcXuUgACAzViomEYAhJwI4vVG9mp66Tb60FHQQACDRgAAoNjWUvroCwN-II5BiQE']
         random_index = random.randint(0, len(test_list) - 1)
         await bot.send_document(message.chat.id,test_list[random_index])
+    if "пидор" in message.text.lower().split():
+        test_list = ['CgACAgIAAxkBAAIKuGTY928KyZ1lg1RiEU6mY4LxFzq2AAL4FgACqHcRSyVyURiYfsvCMAQ', 'CgACAgIAAxkBAAIKuWTY93-iITiRnTSWXIQlPPl5NjlIAAL6FwAC0uP5SrktL7X6x29BMAQ', 'CgACAgIAAxkBAAIKumTY9385Dt832UCI1tRblswUSQXHAAKkIAACYfLBS4r7hMSzBQlIMAQ', 'CgACAgIAAxkBAAIKu2TY93-dsz7W9celvSY_0S7bQze9AAJmEQAC0fhZSnej2wsn5g7YMAQ', 'CgACAgIAAxkBAAIKvGTY93-CNRPcPJ4ETKpr2K1aKCR2AAKSEQACTCjJS39TlQMw0gm7MAQ', 'CgACAgIAAxkBAAIKvWTY938skL4lq1OyRJc8-4fy8cJvAAIdIQACG2LhS4R2kFX9yD35MAQ']
+        random_index = random.randint(0, len(test_list) - 1)
+        await bot.send_document(message.chat.id,test_list[random_index])
     if "кринж" in message.text.lower().split():
         test_list = ['CgACAgIAAx0CZcXuUgACAxNiol_ZtJU3O1wtRC6AX5EO15rWpgACaRMAAunIaEgleZnx5BWgAAEkBA', 'CgACAgIAAx0CZcXuUgACAxRiol_ZQYeWi091c0rakyG8_p5PxQADGQACWUphS1W5V6vxpzTVJAQ', 'CgACAgIAAx0CZcXuUgACAxViol_ZKunX6vWdcjdm6HwLMmyr5gACjBYAAjsuWUtwwSFHwIil3CQE', 'CgACAgIAAx0CZcXuUgACAxZiol_ZX1mZz8IL_gzSu9ZI1RYgNgACDxsAAl8oGEgoqi7DhyYBriQE','CgACAgIAAx0CZcXuUgACAzNiomCbmLYOxQLSVfHPT0ZUUQWXgwACWhgAArr44Uq49WZr2BJkJiQE']
         random_index = random.randint(0, len(test_list) - 1)
@@ -117,6 +164,7 @@ async def echo(message:types.Message):
         test_list = ['CAACAgIAAxkBAAIDp2L5aD5RIhPxKaz8VEWzSA2pSRgIAAKFAANlogMsD-IBskLS9VQpBA', 'CAACAgIAAxkBAAIDqGL5aD7vOf6mJvIRePtgwJbaLZWJAAKZAQACPHbiFt2GdX-_DndrKQQ', 'CAACAgIAAxkBAAIDqWL5aD6k09cKXTZ0DhH28y8mflZIAAI1AANmS8sWgI3Dny1JWHcpBA']
         random_index = random.randint(0, len(test_list) - 1)
         await bot.send_sticker(message.chat.id,test_list[random_index])
+
     if "вумен" in message.text.lower().split():
         test_list = ['CAACAgIAAxkBAAIGxWMZ4yn6XtBMY36B3yleNnIM4z4pAAL8HAAC1k-oSBQUeDMCTAmnKQQ', 'CAACAgIAAxkBAAIGxmMZ4ynsiBYpKgWI6sYAAb0ukpTcAgAC1BgAAmD7qEhMwshGiPStjikE', 'CAACAgIAAxkBAAIGx2MZ4yrpYxdAGgfXLh-hEAMarc4MAAKRGQACOgeoSBFGGxhpwCU8KQQ', 'CAACAgIAAxkBAAIGyGMZ4yvjLWb-T1Z92iZUt2KlEo6JAAI2GwACWC-pSGo2wNWyvr46KQQ', 'CAACAgIAAxkBAAIGyWMZ4yumVuL96dJa2C9EJS575mLqAAJXGgACnAKgSGBvcAsIIgiZKQQ', 'CAACAgIAAxkBAAIGymMZ4yzHmB2Va7X_eCdmHHWs-KjUAAI9GQACqaqgSGxXbTuPBYYOKQQ', 'CAACAgIAAxkBAAIGy2MZ4y0OA3xe_lB6ctg1pj3iSQMxAAKFGwACHQyoSP_gdoxB3m4OKQQ', 'CAACAgIAAxkBAAIGzGMZ4y3kdQRQewmzMmEAATs7Ikv2QwACdBgAAhPXoEjcK-hfrqv4fSkE', 'CAACAgIAAxkBAAIGzWMZ4y4LqE0MOKFuSQABXvV2kHcLEwACZhcAAtqjqUh0oftJO3WtGSkE', 'CAACAgIAAxkBAAIGzmMZ4y_OUMIkvRqjL2MqL_EqPvdxAAL2FwACRBmpSNj4BRfGmoy1KQQ', 'CAACAgIAAxkBAAIGz2MZ4zCw6RbH_LdBFFlaE3EiwXgiAALkGQACU7WpSICRrN5YOHC4KQQ', 'CAACAgIAAxkBAAIG0GMZ4zDuEx00zchgU2rrxJFNs3kwAAKPFQACtoagSC8rOhLCAeWpKQQ', 'CAACAgIAAxkBAAIG0WMZ4zJJhSeYh9kOrPyXG1DvstGlAAK6HAACpQmpSE11cS1XxGzpKQQ', 'CAACAgIAAxkBAAIG0mMZ4zVInECaNdi-HkvAobwMGJSlAAIGGQAC8N6oSDNIpcPBM1ldKQQ', 'CAACAgIAAxkBAAIG02MZ4zXDQOFn861FVGnMScpBNuvEAAIwGwACmRepSLvwsEyr_QXLKQQ', 'CAACAgIAAxkBAAIG1GMZ4zbQOp8odT3ujahIrq_fzRCiAALqFwAC3fqoSMygnQUBWL0VKQQ', 'CAACAgIAAxkBAAIG1WMZ4zc2PS_EDCegH-2Wv3zDsaORAALYHAACzyegSGXkXANQaBhXKQQ', 'CAACAgIAAxkBAAIG1mMZ4zeVbIKORBNntpyUt8rOfD4hAAIpGwAClw6gSCKFIae5gr0AASkE', 'CAACAgIAAxkBAAIG12MZ4zjXHkRNbhd5bAiucgxHIIgeAAIQGwACYy-pSBV8dQJ0ICxPKQQ', 'CAACAgIAAxkBAAIG2GMZ4zkCly6XgF8XOKqK9WaXTLmWAAI8GQAC_N6oSDldO9vWsVXBKQQ']
         random_index = random.randint(0, len(test_list) - 1)
@@ -153,7 +201,7 @@ async def echo(message:types.Message):
             await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=302925")
         if temp[1]=='аккм'.lower():
             await message.answer("https://meet.google.com/wja-srgz-ktq")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=302715")    
+            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=302715")
     if "!linkedin" == message.text.lower():
             with open ('linkedin.json') as f:
                 data = json.load(f)
@@ -165,7 +213,7 @@ async def echo(message:types.Message):
             with open ('linkedin.json') as f:
                 data = json.load(f)
             if temp[1] not in data:
-                data.append(temp[1])        
+                data.append(temp[1])
                 out = '\n'.join(data)
                 await message.answer(out)
                 with open ('linkedin.json','w') as f:
@@ -187,7 +235,7 @@ async def echo(message:types.Message):
             with open ('github.json') as f:
                 data = json.load(f)
             if temp[1] not in data:
-                data.append(temp[1])        
+                data.append(temp[1])
                 out = '\n'.join(data)
                 await message.answer(out)
                 with open ('github.json','w') as f:
@@ -198,14 +246,15 @@ async def echo(message:types.Message):
             await message.reply('аллоу деревенский кусок дерьма кинь линку гитхаба долбаёб сука а не высер свой ебучий')
 
     else:
-        pass    
+        pass
 
 
 
 @dp.message_handler(content_types=[types.ContentType.NEW_CHAT_MEMBERS])
 async def new_members_handler(message:types.Message):
     new_member = message.new_chat_members[0]
-    await bot.send_video(message.chat.id, 'BAACAgIAAxkBAAIBf2L0-T_vyWsTlav5x8PXAAH06uzNGQACex4AAjSsqUtt9HhYyaDhAykE')
+    if new_member:
+        await bot.send_video(message.chat.id, 'BAACAgIAAxkBAAIBf2L0-T_vyWsTlav5x8PXAAH06uzNGQACex4AAjSsqUtt9HhYyaDhAykE')
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
