@@ -5,6 +5,8 @@ pipeline{
         registry = "https://529088291614.dkr.ecr.us-east-1.amazonaws.com" 
         registryCredential = 'ecr:us-east-1:awscreds' 
         imageName = "529088291614.dkr.ecr.us-east-1.amazonaws.com/jenkinstgbot" 
+        cluster = "jenkinstgbot"
+        service = "tgbot"
     }
     stages{
         stage("Fetch code"){
@@ -31,7 +33,7 @@ pipeline{
     }
          stage("remove container") {
             steps {
-                sh 'docker rmi -f $(docker images -a -q)'
+                sh 'docker rm -f $(docker ps -a -q)'
                 }
             }
     }
