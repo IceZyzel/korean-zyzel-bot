@@ -1,21 +1,17 @@
-
-import json
 import random
 import config
 import logging
-from aiogram import Bot, Dispatcher , executor , types
+from aiogram import Bot, Dispatcher, types
 import asyncio
-#logging.basicConfig(level=logging.INFO)
-#PROXY_URL = "http://proxy.server:3128"
 
-bot = Bot(token=config.token)#proxy=PROXY_URL)
-dp = Dispatcher(bot)
-haunted_list = []
-response = '123'
+# Инициализация бота и диспетчера
+bot = Bot(token=config.token)
+dp = Dispatcher()
+
 haunted_users = {}
 
-@dp.message_handler()
-async def echo(message:types.Message):
+@dp.message()
+async def echo(message: types.Message):
     if message.from_user.id == 490557903:#zyzel
         if "!json" == message.text.lower():
             doc = open('linkedin' + '.json', 'rb')
@@ -177,85 +173,10 @@ async def echo(message:types.Message):
         await bot.send_document(message.chat.id,"CgACAgIAAxkBAAIGsWMRzR6zCHgqcaE8RwLkIT0mIl9VAALbAQACC694SzsjDdHw_t_rKQQ")
     if "@vivileetrn" in message.text.lower():
         await bot.send_document(message.chat.id,"CgACAgQAAxkBAAIIvmOi25bGy1f0K5HtRo1gX9D9VerCAAKOCAACInBgUfMoxt_5QxH3LAQ")
-    if "!линк" == message.text.lower():
-        await message.reply('СПИСКИ ВСЕХ ПРЕДМЕТОВ СОКРАЩЁННО \n тймс \n вдоит \n бд \n лмвз \n гейдев \n кп \n аккм')
-    if "!линк" in message.text.lower().split():
-        temp = message.text.split()
-        if temp[1]=='тймс'.lower():
-            await message.answer("https://meet.google.com/ttj-gprj-guf")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=302859")
-        if temp[1]=='вдоит'.lower():
-            await message.answer("https://meet.google.com/tkw-zozt-uug")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=303249")
-        if temp[1]=='бд'.lower():
-            await message.answer("https://meet.google.com/zqd-xgqu-hxh")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=314827")
-        if temp[1]=='лмвз'.lower():
-            await message.answer("https://meet.google.com/frb-ovub-gfg")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=303129")
-        if temp[1]=='гейдев'.lower():
-            await message.answer("https://meet.google.com/tjh-drdd-owh")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=303123")
-        if temp[1]=='кп'.lower():
-            await message.answer("https://meet.google.com/fzx-omeg-iee")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=302925")
-        if temp[1]=='аккм'.lower():
-            await message.answer("https://meet.google.com/wja-srgz-ktq")
-            await message.reply("отметься сразу😉 \n https://dl.nure.ua/mod/attendance/view.php?id=302715")
-    if "!linkedin" == message.text.lower():
-            with open ('linkedin.json') as f:
-                data = json.load(f)
-            out = '\n'.join(data)
-            await message.answer(out)
-    if "!linkedin" in message.text.lower().split():
-        temp = message.text.split()
-        if 'https://www.linkedin.com/' in temp[1]:
-            with open ('linkedin.json') as f:
-                data = json.load(f)
-            if temp[1] not in data:
-                data.append(temp[1])
-                out = '\n'.join(data)
-                await message.answer(out)
-                with open ('linkedin.json','w') as f:
-                    json.dump(data,f)
-            else:
-                await message.reply('такая линка уже есть')
-        else:
-            await message.reply('аллоу деревенский кусок дерьма кинь линку линкедина долбаёб сука а не высер свой ебучий')
-    if message.new_chat_members[0]:
-        await message.reply_video(message.chat.id, 'BAACAgIAAxkBAAIBe2L09W7Yew8fSTOoy5m9l9TamVaIAAJ7HgACNKypS230eFjJoOEDKQQ')
-    if "!github" == message.text.lower():
-            with open ('github.json') as f:
-                data = json.load(f)
-            out = '\n'.join(data)
-            await message.answer(out)
-    if "!github" in message.text.lower().split():
-        temp = message.text.split()
-        if 'https://github.com/' in temp[1]:
-            with open ('github.json') as f:
-                data = json.load(f)
-            if temp[1] not in data:
-                data.append(temp[1])
-                out = '\n'.join(data)
-                await message.answer(out)
-                with open ('github.json','w') as f:
-                    json.dump(data,f)
-            else:
-                await message.reply('такая линка уже есть')
-        else:
-            await message.reply('аллоу деревенский кусок дерьма кинь линку гитхаба долбаёб сука а не высер свой ебучий')
 
-    else:
-        pass
-
-
-
-@dp.message_handler(content_types=[types.ContentType.NEW_CHAT_MEMBERS])
-async def new_members_handler(message:types.Message):
-    new_member = message.new_chat_members[0]
-    if new_member:
-        await bot.send_video(message.chat.id, 'BAACAgIAAxkBAAIBf2L0-T_vyWsTlav5x8PXAAH06uzNGQACex4AAjSsqUtt9HhYyaDhAykE')
+async def main():
+    logging.basicConfig(level=logging.INFO)
+    await dp.start_polling(bot)
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
-
+    asyncio.run(main())
