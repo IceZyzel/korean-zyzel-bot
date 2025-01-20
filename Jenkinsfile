@@ -29,5 +29,10 @@ pipeline{
                 }
             }
     }
-}
+         stage("remove container") {
+            steps {
+                sh 'docker rmi -f $(docker images -a -q)'
+                }
+            }
+    }
 }
