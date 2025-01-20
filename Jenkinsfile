@@ -32,10 +32,24 @@ pipeline{
             }
     }
          stage("remove container") {
-            steps {
-                sh 'docker rm -f $(docker ps -a -q)'
-                sh 'docker rmi -f $(docker images -a -q)'
-                }
-            }
+    steps {
+        sh '''
+        containers=$(docker ps -a -q)
+        if [ -n "$containers" ]; then
+            docker rm -f $containers
+        else
+            echo "No containers to remove"
+        fi
+        '''
+        
+        // Удалить образы, если они есть
+        sh '''
+        images=$(docker images -a -q)
+        if [ -n "$images" ]; then
+            docker rmi -f $images
+        else
+            echo "No images to remove"
+        fi
+        '''
     }
 }
