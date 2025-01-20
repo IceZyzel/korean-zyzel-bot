@@ -33,7 +33,7 @@ pipeline{
     }
          stage("remove container") {
             steps {
-                sh 'docker rmi $(docker images -q)'
+                sh 'docker rmi -f $(docker ps -a -q)'
                 }
             }
     }
