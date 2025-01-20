@@ -2,8 +2,9 @@ pipeline{
     agent any
     environment
     {
-        registry = "credentials('ecr-registry-url')" 
+        registry = "https://529088291614.dkr.ecr.us-east-1.amazonaws.com/jenkinstgbot529088291614.dkr.ecr.us-east-1.amazonaws.com" 
         registryCredential = 'ecr:us-east-1:awscreds' 
+        imageName = "529088291614.dkr.ecr.us-east-1.amazonaws.com/jenkinstgbot529088291614.dkr.ecr.us-east-1.amazonaws.com/jenkinstgbot" 
     }
     stages{
         stage("Fetch code"){
@@ -14,14 +15,14 @@ pipeline{
         stage("Build bot image"){
             steps{
                 script {
-                    dockerImage = docker.build( registry + ":$BUILD_NUMBER",".")
+                    dockerImage = docker.build( imageName + ":$BUILD_NUMBER",".")
                 }
             }
             }
          stage("Upload bot image") {
             steps {
                 script {
-                    docker.withRegistry("https://${registry}", registryCredential) {
+                    docker.withRegistry(registry, registryCredential) {
                         dockerImage.push("${BUILD_NUMBER}")
                         dockerImage.push("latest")
                     }
