@@ -1,6 +1,6 @@
 pipeline{
     agent{
-        any
+        label any
     }
     stages{
         stage("test"){
@@ -8,4 +8,5 @@ pipeline{
                 sh 'echo "build complete"'
             }
     }
+}
 }
