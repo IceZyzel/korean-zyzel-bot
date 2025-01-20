@@ -2,7 +2,7 @@ pipeline{
     agent any
     environment
     {
-        registry = "https://529088291614.dkr.ecr.us-east-1.amazonaws.com/jenkinstgbot529088291614.dkr.ecr.us-east-1.amazonaws.com" 
+        registry = "529088291614.dkr.ecr.us-east-1.amazonaws.com" 
         registryCredential = 'ecr:us-east-1:awscreds' 
         imageName = "529088291614.dkr.ecr.us-east-1.amazonaws.com/jenkinstgbot529088291614.dkr.ecr.us-east-1.amazonaws.com/jenkinstgbot" 
     }
