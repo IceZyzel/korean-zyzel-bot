@@ -33,24 +33,8 @@ pipeline{
     }
          stage("remove container") {
             steps {
-                sh '''
-                containers=$(docker ps -a -q)
-                if [ -n "$containers" ]; then
-                    docker rm -f $containers
-                else
-                    echo "No containers to remove"
-                fi
-                '''
-                
-                sh '''
-                images=$(docker images -a -q)
-                if [ -n "$images" ]; then
-                    docker rmi -f $images
-                else
-                    echo "No images to remove"
-                fi
-                '''
+                sh 'docker system prune -af'
+                }
             }
-        }
     }
 }
