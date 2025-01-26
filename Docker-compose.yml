@@ -1,8 +1,12 @@
+version: "3.8"
+
 services:
-  telegram-bot:
-    build: .
-    env_file:
-      - secret.env
+  bot:
+    image: tg-bot
+    build:
+      context: .
     ports:
       - "5000:5000"
-    restart: unless-stopped
+    env_file:
+      - token.env # Подключаем token.env
+    command: python bot.py
